@@ -1,22 +1,74 @@
-### AL ###
-#Template for AL projects for Dynamics 365 Business Central
-#launch.json folder
-.vscode/
-#Cache folder
-.alcache/
-#Symbols folder
-.alpackages/
-#Snapshots folder
-.snapshots/
-#Testing Output folder
-.output/
-#Extension App-file
-*.app
-#Rapid Application Development File
-rad.json
-#Translation Base-file
-*.g.xlf
-#License-file
-*.flf
-#Test results file
-TestResults.xml
+# General
+.DS_Store
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Flutter/Dart
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/build/
+**/generated_plugin_registrant.dart
+
+# Android
+**/android/.gradle
+**/android/build/
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/android/keystore.properties
+**/android/local.properties
+
+# iOS
+**/ios/.generated/
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/App.framework
+**/ios/Flutter/FlutterPluginRegistrant/
+**/ios/Flutter/Plugins/
+**/ios/Flutter/podhelper.rb
+**/ios/Flutter/Debug.xcconfig
+**/ios/Flutter/Release.xcconfig
+**/ios/FlutterService.xcconfig
+**/ios/Runner.xcworkspace
+**/ios/build/
+**/ios/Podfile.lock
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/.vagrant/
+**/ios/Flutter/FlutterPluginRegistrant/Classes/GeneratedPluginRegistrant.*
+
+# macOS
+**/macos/Podfile.lock
+**/macos/Pods/
+**/macos/Flutter/FlutterPluginRegistrant/
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/GeneratedPluginRegistrant.*
+**/macos/Runner.xcworkspace
+**/macos/build/
+**/macos/.symlinks/
+**/macos/Flutter/FlutterPluginRegistrant/Classes/GeneratedPluginRegistrant.*
+
+# Windows
+**/windows/flutter/
+**/windows/.vs/
+**/windows/build/
+
+# Linux
+**/linux/flutter/
+**/linux/.vs/
+**/linux/build/
+
+# Web
+**/web/.dart_tool/
+**/web/build/
+
+# Others
+**/.vscode/
+packages.lock
+pubspec.lock
