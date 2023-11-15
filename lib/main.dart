@@ -1,24 +1,52 @@
-import 'package:color_match/gameplay_design.dart';
-import 'package:color_match/home.dart';
-import 'package:color_match/matches_model.dart';
-import 'package:color_match/preview_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'audio_manager.dart';
+import 'home.dart';
+import 'gameplay_design.dart';
+import 'matches_model.dart';
+import 'preview_model.dart';
 
+void main() {
+  runApp(MyApp());
+}
 
-void main() => runApp(MyApp());
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    AudioManager.playOrResumeMusic(); // Move music playback start here
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    AudioManager.stopMusic(); // Optionally stop music when app is closed
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      AudioManager.pauseMusic();
+    } else if (state == AppLifecycleState.resumed) {
+      AudioManager.resumeMusic();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.lightGreen),
-      home: HomePage(), // Set the initial route
+      home: HomePage(),
       routes: {
-        '/gameplay': (context) => MultiProvider( // Wrap GameplayDesign with MultiProvider
+        '/gameplay': (context) => MultiProvider(
               providers: [
                 ChangeNotifierProvider<PreviewModel>(
                   create: (context) => PreviewModel(),
