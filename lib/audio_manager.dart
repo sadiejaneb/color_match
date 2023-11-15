@@ -6,7 +6,7 @@ class AudioManager {
 
   static Future<void> playOrResumeMusic() async {
     if (!_isMusicMuted) {
-      await _audioPlayer.play('background_music.mp3', isLooping: true);
+      //await _audioPlayer.play('background_music.mp3', isLooping: true);
     }
   }
 
