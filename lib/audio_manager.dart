@@ -4,9 +4,11 @@ class AudioManager {
   static final AudioPlayer _audioPlayer = AudioPlayer();
   static bool _isMusicMuted = false;
 
-  static Future<void> playOrResumeMusic() async {
+static Future<void> playOrResumeMusic() async {
+    
     if (!_isMusicMuted) {
-      //await _audioPlayer.play('background_music.mp3', isLooping: true);
+      await _audioPlayer.play(AssetSource('background_music.mp3'));
+      _audioPlayer.setReleaseMode(ReleaseMode.loop); // Set the audio to loop
     }
   }
 

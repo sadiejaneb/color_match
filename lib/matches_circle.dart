@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 class MatchesCircle extends StatelessWidget {
   static var matchesHex;
 
+  const MatchesCircle({super.key});
+
   @override
   Widget build(BuildContext context) => 
   Consumer<MatchesModel> (builder: (context, matchesModel, _){
@@ -19,7 +21,7 @@ class MatchesCircle extends StatelessWidget {
       return Column(
         children: [
           Circle(color),
-          Text("Your Color"),
+          const Text("Your Color"),
         ],
       );
   },

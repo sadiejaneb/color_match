@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 class PreviewCircle extends StatelessWidget {
   static var previewHex;
 
+  const PreviewCircle({super.key});
+
   @override
   Widget build(BuildContext context) {
     var color = Provider.of<PreviewModel> (context, listen: true);
@@ -15,7 +17,7 @@ class PreviewCircle extends StatelessWidget {
     return Column(
       children: [
         Circle(color.colorPreview),
-        Text("Preview"),
+        const Text("Preview"),
       ],
     );
   }

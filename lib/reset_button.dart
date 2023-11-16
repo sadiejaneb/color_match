@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ResetButton extends StatelessWidget {
+  const ResetButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     var colorPreview = Provider.of<PreviewModel>(context,

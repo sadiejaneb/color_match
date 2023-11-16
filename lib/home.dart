@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 // Import your MuteUnmuteButton widget
 import 'mute_unmute_button.dart'; 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Color Match'),
+        title: const Text('Color Match'),
       ),
       body: Stack(
         children: [
@@ -16,10 +18,10 @@ class HomePage extends StatelessWidget {
                 Navigator.pushNamed(
                     context, '/gameplay'); // Navigate to GameplayDesign
               },
-              child: Text('Start'),
+              child: const Text('Start'),
             ),
           ),
-          Positioned(
+          const Positioned(
             top: 20, 
             right: 20, 
             child: MuteUnmuteButton(), 

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 class CompareButton extends StatelessWidget {
   static var difference;
 
+  const CompareButton({super.key});
+
   //Calculates the score
   String score(difference) {
     difference = ((PreviewCircle.previewHex)-
@@ -36,11 +38,11 @@ class CompareButton extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Thank you for playing"),
+            title: const Text("Thank you for playing"),
             content: Text(score(difference),),
             actions: <Widget>[
               TextButton(
-                child: Text("Close"),
+                child: const Text("Close"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 })

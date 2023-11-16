@@ -13,7 +13,7 @@ class GameplayDesign extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Color Match')), //AppBar
-      body: Column(
+      body: const Column(
         children: [
           // ignore: prefer_const_constructors
           Center(
@@ -31,7 +31,7 @@ class GameplayDesign extends StatelessWidget {
             ],
           ),
           
-          const Sliders(),
+          Sliders(),
           ResetButton(),
           CompareButton()
     

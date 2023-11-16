@@ -7,10 +7,12 @@ import 'matches_model.dart';
 import 'preview_model.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -44,7 +46,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.lightGreen),
-      home: HomePage(),
+      home: const HomePage(),
       routes: {
         '/gameplay': (context) => MultiProvider(
               providers: [

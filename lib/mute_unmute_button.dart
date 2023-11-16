@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'audio_manager.dart'; 
 
 class MuteUnmuteButton extends StatefulWidget {
+  const MuteUnmuteButton({super.key});
+
   @override
   _MuteUnmuteButtonState createState() => _MuteUnmuteButtonState();
 }
@@ -12,7 +14,7 @@ class _MuteUnmuteButtonState extends State<MuteUnmuteButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.lightGreen, // Background color for the button
         shape: BoxShape.circle, // Makes the container a circle
       ),
