@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+
 class MatchesModel with ChangeNotifier {
-  //values of the sliders that can only be used in this class
+
+  // Values of the sliders that can only be used in this class
   double _red = 0.0;
   double _green = 0.0;
   double _blue = 0.0;
@@ -19,15 +21,11 @@ class MatchesModel with ChangeNotifier {
     _green = value;
     notifyListeners();
   }
-  
-   double get blue => _blue;
+
+  double get blue => _blue;
 
   set blue(double value) {
     _blue = value;
     notifyListeners();
   }
-  
-  
-
-
 }

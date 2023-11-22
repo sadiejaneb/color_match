@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 
+
 class AudioManager {
   static final AudioPlayer _audioPlayer = AudioPlayer();
   static bool _isMusicMuted = false;

@@ -1,71 +1,42 @@
-import 'package:color_match/matches_circle.dart';
-import 'package:color_match/preview_circle.dart';
+import 'package:color_match/game_progression.dart';
+import 'package:color_match/hex_color_manager.dart';
+
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class CompareButton extends StatelessWidget {
-  static var difference;
+  static double calculateColorSimilarity(String hexColor1, String hexColor2) {
+    Color color1 = Color(int.parse(hexColor1.substring(1, 7), radix: 16) + 0xFF000000);
+    Color color2 = Color(int.parse(hexColor2.substring(1, 7), radix: 16) + 0xFF000000);
 
-  //Calculates the score
-  String score(difference) {
-    difference = ((PreviewCircle.previewHex)-
-    (MatchesCircle.matchesHex)).abs();
+double distance = ((color1.red - color2.red).abs() +
+        (color1.green - color2.green).abs() +
+        (color1.blue - color2.blue).abs()) as double;
 
-    //your guess is in the top quadrant
-    if(difference < 4194304) {
-      return "Your score: 100%";
-    } 
-     //your guess is in the 2nd quadrant
-    else if (difference < 8388608) {
-      return "Your score: 75%";
-    } 
-     //your guess is in the 3rd quadrant
-    else if (difference < 12582912) {
-      return "Your score: 50%";
-    } 
-     //your guess is in the bottom quadrant
-    else {
-      return "Your score: 0%";
-    }
+    double maxDistance = 255 * 3;
+    double similarity = ((maxDistance - distance) / maxDistance) * 100;
+
+    return similarity.clamp(0.0, 100.0); // Ensure similarity score stays within 0-100 range
   }
 
   @override
   Widget build(BuildContext context) {
-    void _showDialog() {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Thank you for playing"),
-            content: Text(score(difference),),
-            actions: <Widget>[
-              TextButton(
-                child: Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                })
-            ]
-            );
-        }
-      );
-    }
+    var gameProgress = Provider.of<GameProgress>(context, listen: false);
 
     return ElevatedButton(
-        style: ButtonStyle(
-           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0))
-        ),
-        backgroundColor: const MaterialStatePropertyAll<Color>(Colors.blue)
-        ),
-        child: const Text('Compare',
-                    style: TextStyle(color: Colors.white),
-        ),
-        onPressed: () {
-          score(difference);
-          _showDialog();
-        },
-      );
-  
+      onPressed: () {
+        String previewColor = ColorHexManager.getPreviewHex();
+        String matchesColor = ColorHexManager.getMatchesHex();
+        double similarity = calculateColorSimilarity(previewColor, matchesColor);
+
+        gameProgress.updateUserScore(similarity); // Update the user's score directly
+      },
+      child: const Text(
+        'Compare',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
   }
 }

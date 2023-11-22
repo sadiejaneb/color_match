@@ -1,3 +1,4 @@
+import 'package:color_match/game_progression.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'audio_manager.dart';
@@ -16,6 +17,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  final MatchesModel matchesModel = MatchesModel();
+  final PreviewModel previewModel = PreviewModel();
+
   @override
   void initState() {
     super.initState();
@@ -47,16 +51,19 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       home: HomePage(),
       routes: {
         '/gameplay': (context) => MultiProvider(
-              providers: [
-                ChangeNotifierProvider<PreviewModel>(
-                  create: (context) => PreviewModel(),
-                ),
-                ChangeNotifierProvider<MatchesModel>(
-                  create: (context) => MatchesModel(),
-                )
-              ],
-              child: const GameplayDesign(),
+          providers: [
+            ChangeNotifierProvider<PreviewModel>(
+              create: (context) => previewModel,
             ),
+            ChangeNotifierProvider<GameProgress>(
+              create: (context) => GameProgress(matchesModel, previewModel),
+            ),
+            ChangeNotifierProvider<MatchesModel>(
+              create: (context) => matchesModel,
+            ),
+          ],
+          child: const GameplayDesign(),
+        ),
       },
     );
   }
