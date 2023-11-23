@@ -28,4 +28,5 @@ class MatchesModel with ChangeNotifier {
     _blue = value;
     notifyListeners();
   }
+
 }

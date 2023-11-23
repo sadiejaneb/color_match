@@ -17,18 +17,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  final MatchesModel matchesModel = MatchesModel();
-  final PreviewModel previewModel = PreviewModel();
+  late MatchesModel matchesModel;
+  late PreviewModel previewModel;
+  late GameProgress gameProgress;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     AudioManager.playOrResumeMusic(); // Move music playback start here
+
+    // Initialize models
+    matchesModel = MatchesModel();
+    previewModel = PreviewModel();
+    gameProgress = GameProgress(matchesModel, previewModel);
   }
 
   @override
   void dispose() {
+    // Dispose models when app is closed
+    matchesModel.dispose();
+    previewModel.dispose();
+    gameProgress.dispose();
+    
     WidgetsBinding.instance.removeObserver(this);
     AudioManager.stopMusic(); // Optionally stop music when app is closed
     super.dispose();
@@ -52,14 +63,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       routes: {
         '/gameplay': (context) => MultiProvider(
           providers: [
-            ChangeNotifierProvider<PreviewModel>(
-              create: (context) => previewModel,
+            ChangeNotifierProvider<PreviewModel>.value(
+              value: previewModel,
             ),
-            ChangeNotifierProvider<GameProgress>(
-              create: (context) => GameProgress(matchesModel, previewModel),
+            ChangeNotifierProvider<GameProgress>.value(
+              value: gameProgress,
             ),
-            ChangeNotifierProvider<MatchesModel>(
-              create: (context) => matchesModel,
+            ChangeNotifierProvider<MatchesModel>.value(
+              value: matchesModel,
             ),
           ],
           child: const GameplayDesign(),
