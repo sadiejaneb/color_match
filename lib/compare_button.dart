@@ -13,10 +13,11 @@ class CompareButton extends StatelessWidget {
 
 double distance = ((color1.red - color2.red).abs() +
         (color1.green - color2.green).abs() +
-        (color1.blue - color2.blue).abs()) as double;
+        (color1.blue - color2.blue).abs()).toDouble();
 
-    double maxDistance = 255 * 3;
-    double similarity = ((maxDistance - distance) / maxDistance) * 100;
+double maxDistance = 255 * 3;
+double similarity = ((maxDistance - distance) / maxDistance) * 100;
+
 
     return similarity.clamp(0.0, 100.0); // Ensure similarity score stays within 0-100 range
   }
