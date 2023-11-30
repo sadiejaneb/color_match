@@ -3,12 +3,21 @@ import 'package:color_match/matches_model.dart';
 import 'package:color_match/preview_model.dart';
 import 'package:flutter/material.dart';
 
-
 class GameProgress with ChangeNotifier {
   final MatchesModel matchesModel; // MatchesModel instance
   final PreviewModel previewModel; // PreviewModel instance
 
   GameProgress(this.matchesModel, this.previewModel);
+
+  int _currentLevelAchievement = 0;
+  int get currentLevelAchievement => _currentLevelAchievement;
+  void incrementCurrentLevelAchievement() {
+    if ((_level - _currentLevelAchievement) % 2 == 0) {
+      _currentLevelAchievement++;
+      notifyListeners();
+    }
+  }
+  
 
   int _level = 1;
   double _userScore = 0.0;
@@ -39,6 +48,10 @@ class GameProgress with ChangeNotifier {
     if (_userScore >= 90) {
       _level++;
       resetGame();
+
+      if ((_level - _previousLevel) % 2 == 0) {
+        incrementCurrentLevelAchievement();
+      }
     }
   }
 
@@ -50,4 +63,11 @@ class GameProgress with ChangeNotifier {
     previewModel.reset(); // Reset the preview circle
   }
   // Other methods relevant to game progression...
+  
+  int _previousLevel = 1;
+  int get previousLevel => _previousLevel;
+
+  void updatePreviousLevel(int newLevel) {
+    _previousLevel = newLevel;
+  }
 }
