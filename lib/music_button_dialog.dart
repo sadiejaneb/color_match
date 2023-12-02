@@ -27,7 +27,7 @@ class _MusicMenuDialogState extends State<MusicMenuDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Music Menu'),
+      title: Center(child: Text('Music Menu')),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
