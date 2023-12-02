@@ -8,9 +8,13 @@ import 'gameplay_design.dart';
 import 'matches_model.dart';
 import 'preview_model.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  print("Loading settings...");
+  await AudioManager.loadSettings();
   runApp(MyApp());
 }
+
 
 class MyApp extends StatefulWidget {
   @override
