@@ -1,4 +1,5 @@
 import 'package:color_match/game_progression.dart';
+import 'package:color_match/tutorial_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'audio_manager.dart';
@@ -75,6 +76,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ],
           child: const GameplayDesign(),
         ),
+         '/tutorial': (context) => TutorialPage(), // Add the route for TutorialPage
       },
     );
   }
