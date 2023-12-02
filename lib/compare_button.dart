@@ -1,31 +1,46 @@
+import 'dart:math';
+
 import 'package:color_match/game_progression.dart';
 import 'package:color_match/hex_color_manager.dart';
-
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
 class CompareButton extends StatelessWidget {
-  static double calculateColorSimilarity(String hexColor1, String hexColor2) {
+
+
+ double calculateColorSimilarity(String hexColor1, String hexColor2) {
     if (hexColor1.length < 7 || hexColor2.length < 7) {
-      // Handle invalid color strings
-      return 0.0;
+        // Handle invalid color strings
+        return 0.0;
     }
 
+    // Convert hex strings to Color objects
     Color color1 = Color(int.parse(hexColor1.substring(1, 7), radix: 16) + 0xFF000000);
     Color color2 = Color(int.parse(hexColor2.substring(1, 7), radix: 16) + 0xFF000000);
 
-double distance = ((color1.red - color2.red).abs() +
-        (color1.green - color2.green).abs() +
-        (color1.blue - color2.blue).abs()).toDouble();
+    // Calculate weighted Euclidean distance
+    double weightedDistance = weightedEuclideanDistance(color1, color2);
 
-double maxDistance = 255 * 3;
-double similarity = ((maxDistance - distance) / maxDistance) * 100;
-
+    // Calculate similarity percentage based on the weighted distance
+    double maxWeightedDistance = 441.672; // Maximum possible weighted distance with 255 as the maximum channel value
+    double similarity = ((maxWeightedDistance - weightedDistance) / maxWeightedDistance) * 100;
 
     return similarity.clamp(0.0, 100.0); // Ensure similarity score stays within 0-100 range
-  }
+    
+}
+
+ double weightedEuclideanDistance(Color color1, Color color2) {
+    double redDiff = (color1.red - color2.red).abs() * 0.299;
+    double greenDiff = (color1.green - color2.green).abs() * 0.587;
+    double blueDiff = (color1.blue - color2.blue).abs() * 0.114;
+
+    // Calculate weighted Euclidean distance
+    double weightedDistance = sqrt(redDiff * redDiff + greenDiff * greenDiff + blueDiff * blueDiff);
+
+    return weightedDistance;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +51,8 @@ double similarity = ((maxDistance - distance) / maxDistance) * 100;
         String previewColor = ColorHexManager.getPreviewHex();
         String matchesColor = ColorHexManager.getMatchesHex();
         double similarity = calculateColorSimilarity(previewColor, matchesColor);
+     
+
 
         gameProgress.updateUserScore(similarity);
 
@@ -91,3 +108,4 @@ double similarity = ((maxDistance - distance) / maxDistance) * 100;
     );
   }
 }
+
