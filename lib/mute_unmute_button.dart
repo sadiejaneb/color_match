@@ -23,8 +23,8 @@ class _MuteUnmuteButtonState extends State<MuteUnmuteButton> {
         icon: Icon(
           isMuted
               ? Icons.volume_off
-              : Icons.volume_up, // Change icon based on mute state
-          color: Colors.white, // Icon color
+              : Icons.volume_up, 
+          //color: Colors.white, 
         ),
         onPressed: () {
           setState(() {

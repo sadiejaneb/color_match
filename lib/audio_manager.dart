@@ -3,12 +3,29 @@ import 'package:audioplayers/audioplayers.dart';
 class AudioManager {
   static final AudioPlayer _audioPlayer = AudioPlayer();
   static bool _isMusicMuted = false;
+  static int _currentSongIndex = 0; // Index to track the current song
+  static List<String> _songs = [
+    'background_music.mp3',
+    'song2.mp3',
+    'song3.mp3',
+  ];
 
   static Future<void> playOrResumeMusic() async {
     if (!_isMusicMuted) {
-      await _audioPlayer.play(AssetSource('background_music.mp3'));
+      await _audioPlayer.play(AssetSource(_songs[_currentSongIndex]));
       _audioPlayer.setReleaseMode(ReleaseMode.loop); // Set the audio to loop
     }
+  }
+  static void nextSong() {
+    _currentSongIndex =
+        (_currentSongIndex + 1) % _songs.length; // Move to the next song
+    playOrResumeMusic(); // Play the new song
+  }
+
+  static void previousSong() {
+    _currentSongIndex = (_currentSongIndex - 1 + _songs.length) %
+        _songs.length; // Move to the previous song
+    playOrResumeMusic(); // Play the new song
   }
 
   static void muteMusic() {
@@ -45,5 +62,8 @@ class AudioManager {
     if (!_isMusicMuted) {
       await _audioPlayer.resume();
     }
+  }
+  static void setVolume(double volume) {
+    _audioPlayer.setVolume(volume);
   }
 }
