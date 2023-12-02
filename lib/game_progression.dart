@@ -2,6 +2,7 @@ import 'package:color_match/matches_model.dart';
 import 'package:color_match/preview_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class GameProgress with ChangeNotifier {
   final MatchesModel matchesModel; // MatchesModel instance
@@ -14,12 +15,18 @@ class GameProgress with ChangeNotifier {
     _initSharedPreferences();
   }
 
-  void _initSharedPreferences() async {
+ void _initSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
 
-    // Load the user's level and achievement from SharedPreferences
     _level = _prefs.getInt('current_level') ?? 1;
     _currentLevelAchievement = _prefs.getInt('current_achievement') ?? 0;
+
+    // Load the PreviewModel state
+    final previewModelJson = _prefs.getString('preview_model_state');
+    if (previewModelJson != null) {
+      previewModel.fromJson(json.decode(previewModelJson));
+    }
+
     notifyListeners();
   }
 
@@ -27,7 +34,12 @@ class GameProgress with ChangeNotifier {
   void _saveProgressToSharedPreferences() async {
     await _prefs.setInt('current_level', _level);
     await _prefs.setInt('current_achievement', _currentLevelAchievement);
+
+    // Save the PreviewModel state
+    await _prefs.setString(
+        'preview_model_state', json.encode(previewModel.toJson()));
   }
+
 
   // Modify your incrementCurrentLevelAchievement method
   void incrementCurrentLevelAchievement() {
@@ -48,14 +60,13 @@ class GameProgress with ChangeNotifier {
     }
   }
 
-  // Modify your resetGame method
   void resetGame() {
     matchesModel.red = 0.0;
     matchesModel.green = 0.0;
     matchesModel.blue = 0.0;
     _userScore = 0.0;
-    previewModel.reset(); // Reset the preview circle
-    _saveProgressToSharedPreferences(); // Save progress
+    previewModel.reset();
+    _saveProgressToSharedPreferences();
   }
 
   int _currentLevelAchievement = 0;
