@@ -9,7 +9,7 @@ import 'package:color_match/sliders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pause_button.dart';
-import 'mute_unmute_button.dart';
+import 'music_button.dart';
 class GameplayDesign extends StatelessWidget {
   const GameplayDesign({Key? key});
 
@@ -55,16 +55,10 @@ class GameplayDesign extends StatelessWidget {
                   ],
                 ),
               ),
-              // Positioned PauseButton
-              Positioned(
-                top: kToolbarHeight - 40, 
-                left: 10,
-                child: PauseButton(),
-              ),
               Positioned(
                 top: 20,
                 right: 20,
-                child: MuteUnmuteButton(),
+                child: PauseButton(),
               ),
             ],
           ),

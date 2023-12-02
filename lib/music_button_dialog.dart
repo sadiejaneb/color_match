@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
 import 'audio_manager.dart';
 
-class PauseMenuDialog extends StatefulWidget {
+class MusicMenuDialog extends StatefulWidget {
   @override
-  _PauseMenuDialogState createState() => _PauseMenuDialogState();
+  _MusicMenuDialogState createState() => _MusicMenuDialogState();
 }
 
-class _PauseMenuDialogState extends State<PauseMenuDialog> {
-  double volume = 1.0; // Adjust based on your AudioManager settings
+class _MusicMenuDialogState extends State<MusicMenuDialog> {
+  double volume = 1.0; // Default value
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the volume with the current volume from AudioManager
+    initializeVolume();
+  }
+
+  void initializeVolume() async {
+    double currentVolume =
+        await AudioManager.getVolume(); // Assuming getVolume is an async method
+    setState(() {
+      volume = currentVolume;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Pause Menu'),
+      title: Text('Music Menu'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -21,6 +36,7 @@ class _PauseMenuDialogState extends State<PauseMenuDialog> {
             value: volume,
             min: 0.0,
             max: 1.0,
+            divisions: 10,
             onChanged: (newVolume) {
               setState(() {
                 volume = newVolume;
@@ -49,20 +65,19 @@ class _PauseMenuDialogState extends State<PauseMenuDialog> {
         ],
       ),
       actions: <Widget>[
-        TextButton(
-          child: Text('Resume'),
-          onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog and resume the game
-          },
-        ),
-        TextButton(
-          child: Text('Main Menu'),
-          onPressed: () {
-            // Navigate back to the main screen
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          },
+        Center(
+          // Center the Resume button
+          child: TextButton(
+            child: Text('Resume'),
+            onPressed: () {
+              Navigator.of(context)
+                  .pop(); // Close the dialog and resume the game
+            },
+          ),
         ),
       ],
+      actionsAlignment:
+          MainAxisAlignment.center, // Ensure alignment is centered
     );
   }
 }

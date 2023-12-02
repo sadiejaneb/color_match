@@ -3,6 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 class AudioManager {
   static final AudioPlayer _audioPlayer = AudioPlayer();
   static bool _isMusicMuted = false;
+  static double _currentVolume = 1.0;
   static int _currentSongIndex = 0; // Index to track the current song
   static List<String> _songs = [
     'background_music.mp3',
@@ -64,6 +65,10 @@ class AudioManager {
     }
   }
   static void setVolume(double volume) {
+    _currentVolume = volume; // Update the volume tracking variable
     _audioPlayer.setVolume(volume);
+  }
+  static double getVolume() {
+    return _currentVolume; // Return the current volume level
   }
 }
