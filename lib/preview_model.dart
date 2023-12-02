@@ -1,7 +1,6 @@
 import 'dart:math';
-
-
 import 'package:flutter/material.dart';
+
 
 class PreviewModel with ChangeNotifier {
   Color _colorPreviewModel = _generateColor(); // Initially generate a color
