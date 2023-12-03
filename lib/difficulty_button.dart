@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DifficultyButton extends StatefulWidget {
   final Function(int) onDifficultyChanged;
@@ -17,6 +18,20 @@ class DifficultyButton extends StatefulWidget {
 class _DifficultyButtonState extends State<DifficultyButton> {
   bool isHard = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadDifficultyState();
+  }
+
+  void _loadDifficultyState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool savedIsHard = prefs.getBool('isHard') ?? false;
+    setState(() {
+      isHard = savedIsHard;
+    });
+  }
+
   void toggleDifficulty() {
     setState(() {
       isHard = !isHard;
@@ -24,6 +39,12 @@ class _DifficultyButtonState extends State<DifficultyButton> {
     int newValue = isHard ? 95 : 90;
     widget.onDifficultyChanged(newValue);
     widget.onScoreThresholdChanged(newValue);
+    _saveDifficultyState();
+  }
+
+  void _saveDifficultyState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isHard', isHard);
   }
 
   @override

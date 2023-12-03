@@ -9,6 +9,7 @@ import 'package:color_match/preview_model.dart';
 import 'package:color_match/sliders.dart';
 import 'pause_button.dart';
 import 'difficulty_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GameplayDesign extends StatefulWidget {
   const GameplayDesign({Key? key}) : super(key: key);
@@ -21,10 +22,34 @@ class _GameplayDesignState extends State<GameplayDesign> {
   int similarityValue = 90; // Default difficulty value
   int userScoreValue = 90; // Default user score threshold
 
+  void initState() {
+    super.initState();
+    _loadSimilarityValue();
+    _loadUserScoreValue();
+  }
+
+  void _loadSimilarityValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int savedValue = prefs.getInt('similarityValue') ?? 90;
+    setState(() {
+      similarityValue = savedValue;
+    });
+  }
+
+  void _loadUserScoreValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int savedValue = prefs.getInt('userScoreValue') ?? 90;
+    setState(() {
+      userScoreValue = savedValue;
+    });
+  }
+
   void updateSimilarityValue(int newValue) {
     setState(() {
       similarityValue = newValue;
       print('Updated similarityValue: $similarityValue');
+      // Save similarityValue
+      _saveSimilarityValue(newValue);
     });
   }
 
@@ -32,7 +57,19 @@ class _GameplayDesignState extends State<GameplayDesign> {
     setState(() {
       userScoreValue = newValue;
       print('Updated userScoreValue: $userScoreValue');
+      // Save userScoreValue
+      _saveUserScoreValue(newValue);
     });
+  }
+
+  void _saveSimilarityValue(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('similarityValue', value);
+  }
+
+  void _saveUserScoreValue(int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('userScoreValue', value);
   }
 
   @override
@@ -73,8 +110,8 @@ class _GameplayDesignState extends State<GameplayDesign> {
                     ),
                     Sliders(),
                     CompareButton(
-                        similarityValue:
-                            similarityValue), // Pass the similarityValue to CompareButton
+                      similarityValue: similarityValue
+                    ), // Pass the similarityValue to CompareButton
                   ],
                 ),
               ),
@@ -82,10 +119,8 @@ class _GameplayDesignState extends State<GameplayDesign> {
                 top: 20,
                 left: 20,
                 child: DifficultyButton(
-                  onDifficultyChanged:
-                      updateSimilarityValue, // Update similarityValue
-                  onScoreThresholdChanged:
-                      updateUserScoreValue, // Update userScoreValue
+                  onDifficultyChanged: updateSimilarityValue,
+                  onScoreThresholdChanged: updateUserScoreValue,
                 ),
               ),
               Positioned(
