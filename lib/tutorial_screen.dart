@@ -26,8 +26,8 @@ class TutorialScreen extends StatelessWidget {
           SizedBox(height: 20),
           Image.asset(
             item.imageUrl,
-            height: 200,
-            width: 200,
+            height: 300,
+            width: 300,
             fit: BoxFit.contain,
           ),
         ],
