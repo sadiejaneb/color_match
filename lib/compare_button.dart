@@ -1,13 +1,36 @@
 import 'dart:math';
-
 import 'package:color_match/game_progression.dart';
 import 'package:color_match/hex_color_manager.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class CompareButton extends StatelessWidget {
+class CompareButton extends StatefulWidget {
+    final int similarityValue;
+
+  CompareButton({Key? key, required this.similarityValue}) : super(key: key);
+
+  @override
+  _CompareButtonState createState() => _CompareButtonState();
+}
+
+class _CompareButtonState extends State<CompareButton> {
+   @override
+  void didUpdateWidget(covariant CompareButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.similarityValue != oldWidget.similarityValue) {
+      print(
+          'CompareButton received new similarityValue: ${widget.similarityValue}');
+    }
+  }
+  
+  int similarityValue = 90; // Initial value is set to 90
+
+  void updateSimilarityValue(int newValue) {
+    setState(() {
+      similarityValue = newValue;
+    });
+  }
 
 
  double calculateColorSimilarity(String hexColor1, String hexColor2) {
@@ -56,7 +79,10 @@ class CompareButton extends StatelessWidget {
 
         gameProgress.updateUserScore(similarity);
 
-        if (similarity > 90) {
+        
+
+        if (similarity > similarityValue) {
+          print('similarity value: $similarityValue');
           _showCongratsDialog(context, gameProgress);
         } else {
           _showTryAgainDialog(context);

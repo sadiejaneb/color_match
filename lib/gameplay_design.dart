@@ -1,4 +1,5 @@
-
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:color_match/compare_button.dart';
 import 'package:color_match/game_progression.dart';
 import 'package:color_match/matches_circle.dart';
@@ -6,12 +7,33 @@ import 'package:color_match/matches_model.dart';
 import 'package:color_match/preview_circle.dart';
 import 'package:color_match/preview_model.dart';
 import 'package:color_match/sliders.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'pause_button.dart';
-import 'music_button.dart';
-class GameplayDesign extends StatelessWidget {
-  const GameplayDesign({Key? key});
+import 'difficulty_button.dart';
+
+class GameplayDesign extends StatefulWidget {
+  const GameplayDesign({Key? key}) : super(key: key);
+
+  @override
+  _GameplayDesignState createState() => _GameplayDesignState();
+}
+
+class _GameplayDesignState extends State<GameplayDesign> {
+  int similarityValue = 90; // Default difficulty value
+  int userScoreValue = 90; // Default user score threshold
+
+  void updateSimilarityValue(int newValue) {
+    setState(() {
+      similarityValue = newValue;
+      print('Updated similarityValue: $similarityValue');
+    });
+  }
+
+  void updateUserScoreValue(int newValue) {
+    setState(() {
+      userScoreValue = newValue;
+      print('Updated userScoreValue: $userScoreValue');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +46,8 @@ class GameplayDesign extends StatelessWidget {
           appBar: AppBar(title: Text('Color Match - Level $currentLevel')),
           body: Stack(
             children: [
-              // Main content with padding
               Padding(
-                padding: EdgeInsets.only(top: 60), // Adjust as needed
+                padding: EdgeInsets.only(top: 60),
                 child: Column(
                   children: [
                     Padding(
@@ -51,8 +72,20 @@ class GameplayDesign extends StatelessWidget {
                       ],
                     ),
                     Sliders(),
-                    CompareButton(),
+                    CompareButton(
+                        similarityValue:
+                            similarityValue), // Pass the similarityValue to CompareButton
                   ],
+                ),
+              ),
+              Positioned(
+                top: 20,
+                left: 20,
+                child: DifficultyButton(
+                  onDifficultyChanged:
+                      updateSimilarityValue, // Update similarityValue
+                  onScoreThresholdChanged:
+                      updateUserScoreValue, // Update userScoreValue
                 ),
               ),
               Positioned(
