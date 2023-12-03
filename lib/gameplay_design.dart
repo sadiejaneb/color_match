@@ -19,8 +19,8 @@ class GameplayDesign extends StatefulWidget {
 }
 
 class _GameplayDesignState extends State<GameplayDesign> {
-  int similarityValue = 90; // Default difficulty value
-  int userScoreValue = 90; // Default user score threshold
+  int similarityValue = 80; // Default difficulty value
+  int userScoreValue = 80; // Default user score threshold
 
   void initState() {
     super.initState();
@@ -30,7 +30,7 @@ class _GameplayDesignState extends State<GameplayDesign> {
 
   void _loadSimilarityValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int savedValue = prefs.getInt('similarityValue') ?? 90;
+    int savedValue = prefs.getInt('similarityValue') ?? 80;
     setState(() {
       similarityValue = savedValue;
     });
@@ -38,7 +38,7 @@ class _GameplayDesignState extends State<GameplayDesign> {
 
   void _loadUserScoreValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int savedValue = prefs.getInt('userScoreValue') ?? 90;
+    int savedValue = prefs.getInt('userScoreValue') ?? 80;
     setState(() {
       userScoreValue = savedValue;
     });

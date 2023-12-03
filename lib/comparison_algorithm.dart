@@ -1,19 +1,6 @@
 import 'dart:math';
-import 'package:color_match/game_progression.dart';
-import 'package:color_match/hex_color_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:logger/logger.dart';
 
-
-class CompareButton extends StatefulWidget {
-    final int similarityValue;
-
-  CompareButton({Key? key, required this.similarityValue}) : super(key: key);
-
-  @override
-  _CompareButtonState createState() => _CompareButtonState();
-}
 class LabColor {
   final double l;
   final double a;
@@ -22,32 +9,11 @@ class LabColor {
   LabColor(this.l, this.a, this.b);
 }
 
-class _CompareButtonState extends State<CompareButton> {
-   @override
-  void didUpdateWidget(covariant CompareButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.similarityValue != oldWidget.similarityValue) {
-      print(
-          'CompareButton received new similarityValue: ${widget.similarityValue}');
-    }
-  }
-  
-  int similarityValue = 80; // Initial value is set to 80
-
-  void updateSimilarityValue(int newValue) {
-    setState(() {
-      similarityValue = newValue;
-    });
-  }
-final Logger _logger = Logger();
-
 double calculateColorSimilarity(String hexColor1, String hexColor2) {
   if (hexColor1.length < 7 || hexColor2.length < 7) {
     // Handle invalid color strings
     return 0.0;
   }
-   _logger.d('Hex Color 1: $hexColor1');
-  _logger.d('Hex Color 2: $hexColor2');
 
   LabColor lab1 = hexToLab(hexColor1);
   LabColor lab2 = hexToLab(hexColor2);
@@ -136,73 +102,3 @@ double calculateDeltaE2000(LabColor lab1, LabColor lab2) {
 
   return deltaE;
 }
-  @override
-  Widget build(BuildContext context) {
-    var gameProgress = Provider.of<GameProgress>(context, listen: false);
-
-    return ElevatedButton(
-      onPressed: () {
-        String previewColor = ColorHexManager.getPreviewHex();
-        String matchesColor = ColorHexManager.getMatchesHex();
-        double similarity = calculateColorSimilarity(previewColor, matchesColor);
-     
-
-
-        gameProgress.updateUserScore(similarity);
-
-        
-
-        if (similarity > similarityValue) {
-          print('similarity value: $similarityValue');
-          _showCongratsDialog(context, gameProgress);
-        } else {
-          _showTryAgainDialog(context);
-        }
-      },
-      child: const Text(
-        'Compare',
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-
-  void _showCongratsDialog(BuildContext context, GameProgress gameProgress) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Excellent Match!'),
-          content: Text('You can proceed to the next level.'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('Next Level'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-  void _showTryAgainDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Not Quite!'),
-          content: Text('Please try again.'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-

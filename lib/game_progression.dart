@@ -10,7 +10,7 @@ class GameProgress with ChangeNotifier {
 
   // Create a SharedPreferences instance for storing/retrieving data
   late SharedPreferences _prefs;
-  int userScoreValue = 90; // Default difficulty value
+  int userScoreValue = 80; // Default difficulty value
 
   GameProgress(this.matchesModel, this.previewModel) {
     _initSharedPreferences();
@@ -59,7 +59,8 @@ class GameProgress with ChangeNotifier {
   // Modify your checkScoreForLevelChange method
   void checkScoreForLevelChange() {
     if (_userScore >= userScoreValue) {
-      print('userScoreLevel: $userScoreValue');
+      double currentScore = _userScore;
+      updateUserScore(currentScore);
       _level++;
       resetGame();
       incrementCurrentLevelAchievement();
@@ -98,11 +99,13 @@ class GameProgress with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserScore(double score) {
+void updateUserScore(double score) {
+  if (_userScore != score) {
     _userScore = score;
     checkScoreForLevelChange();
     notifyListeners();
   }
+}
 
   // Other methods relevant to game progression...
 

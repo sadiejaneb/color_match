@@ -4,6 +4,10 @@ import 'package:color_match/matches_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+String colorToHex(Color color) {
+  return '#${color.value.toRadixString(16).substring(2)}';
+}
+
 class MatchesCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<MatchesModel>(builder: (context, matchesModel, _) {
@@ -14,7 +18,7 @@ class MatchesCircle extends StatelessWidget {
           1,
         );
 
-        ColorHexManager.setMatchesHex(color.value.toString());
+        ColorHexManager.setMatchesHex(colorToHex(color));
 
         return Column(
           children: [

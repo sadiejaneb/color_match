@@ -36,7 +36,7 @@ class _DifficultyButtonState extends State<DifficultyButton> {
     setState(() {
       isHard = !isHard;
     });
-    int newValue = isHard ? 95 : 90;
+    int newValue = isHard ? 90 : 80;
     widget.onDifficultyChanged(newValue);
     widget.onScoreThresholdChanged(newValue);
     _saveDifficultyState();

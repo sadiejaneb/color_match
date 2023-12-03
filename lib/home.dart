@@ -18,34 +18,43 @@ class HomePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/gameplay');
-                  },
-                  child: const Text('Start'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/gameplay');
+                    },
+                    child: const Text('Start'),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TutorialPage()),
-                    );
-                  },
-                  child: const Text('Tutorial'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TutorialPage()),
+                      );
+                    },
+                    child: const Text('Tutorial'),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Accomplishments()),
-                    );
-                  },
-                  child: const Text('View Accomplishments'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Accomplishments()),
+                      );
+                    },
+                    child: const Text('View Accomplishments'),
+                  ),
                 ),
               ],
             ),
           ),
-           Positioned(
+          Positioned(
             top: 20,
             right: 20,
             child: MuteUnmuteButton(),
