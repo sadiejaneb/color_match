@@ -28,12 +28,17 @@ class GameProgress with ChangeNotifier {
   List<String> _earnedAccomplishments = [];
 
   List<String> get earnedAccomplishments => _earnedAccomplishments;
+  bool _hardLevelAchievementAwarded = false;
+  bool get hardLevelAchievementAwarded => _hardLevelAchievementAwarded;
+
   
 
   // Method to add an earned accomplishment
   void addEarnedAccomplishment(String accomplishment) {
     _earnedAccomplishments.add(accomplishment);
     notifyListeners();
+
+    
   }
 
   // Method to increment the total achievements
@@ -139,9 +144,12 @@ void completeCurrentLevel(BuildContext context) {
   void completeLevel() {
     _currentLevelAchievement += 1;
     notifyListeners();
-    if (isHardMode) {
-      setHardMode(true);
+
+    if (isHardMode && !_hardLevelAchievementAwarded) {
+      _hardLevelAchievementAwarded = true; // Set the flag to true
+      addEarnedAccomplishment('Completed a Hard Level! ');
     }
+
     incrementTotalAchievements(); // Increment total achievements
     addEarnedAccomplishment('Completed Level $_currentLevelAchievement!');
     _saveProgressToSharedPreferences(); // Save progress

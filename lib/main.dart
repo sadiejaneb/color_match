@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     // Initialize models
     matchesModel = MatchesModel();
     previewModel = PreviewModel();
-    gameProgress = GameProgress(matchesModel, previewModel);
+    gameProgress = GameProgress(matchesModel, previewModel,);
   }
 
   @override

@@ -50,6 +50,14 @@ class LevelAccomplishmentWidget extends StatelessWidget {
               subtitle: Text('Congratulations on viewing the tutorial.'),
             ),
           ),
+          if (gameProgress.hardLevelAchievementAwarded)
+            Card(
+              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: ListTile(
+                title: Text('Completed a Hard Level!'),
+                subtitle: Text('Congratulations on completing a hard level.'),
+              ),
+            ),
         if (gameProgress.currentLevelAchievement >= 1)
           Card(
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
