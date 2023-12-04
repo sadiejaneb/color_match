@@ -21,6 +21,21 @@ class GameplayDesign extends StatefulWidget {
 class _GameplayDesignState extends State<GameplayDesign> {
   int similarityValue = 80; // Default difficulty value
   int userScoreValue = 80; // Default user score threshold
+  bool isHard = false; // Define isHard as a property
+
+  void toggleDifficulty() {
+    setState(() {
+      isHard = !isHard;
+    });
+    int newValue = isHard ? 90 : 80;
+    updateSimilarityValue(newValue);
+    updateUserScoreValue(newValue);
+
+    // Set the difficulty mode in GameProgress
+    Provider.of<GameProgress>(context, listen: false).setHardMode(isHard);
+    // Assuming you also have a method to handle completing a level in the GameplayDesign widget
+    Provider.of<GameProgress>(context, listen: false).completeLevel();
+  }
 
   void initState() {
     super.initState();
@@ -110,8 +125,8 @@ class _GameplayDesignState extends State<GameplayDesign> {
                     ),
                     Sliders(),
                     CompareButton(
-                      similarityValue: similarityValue
-                    ), // Pass the similarityValue to CompareButton
+                        similarityValue:
+                            similarityValue), // Pass the similarityValue to CompareButton
                   ],
                 ),
               ),

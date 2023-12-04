@@ -12,11 +12,51 @@ class GameProgress with ChangeNotifier {
   late SharedPreferences _prefs;
   int userScoreValue = 80; // Default difficulty value
 
+  bool _isHardMode = false;
+
+  bool get isHardMode => _isHardMode;
+
+  bool _viewedTutorial = false;
+
+  bool get viewedTutorial => _viewedTutorial;
+
+  int _totalAchievements = 0;
+
+  int get totalAchievements => _totalAchievements;
+
+  List<String> _earnedAccomplishments = [];
+
+  List<String> get earnedAccomplishments => _earnedAccomplishments;
+
+  // Method to add an earned accomplishment
+  void addEarnedAccomplishment(String accomplishment) {
+    _earnedAccomplishments.add(accomplishment);
+    notifyListeners();
+  }
+
+  // Method to increment the total achievements
+  void incrementTotalAchievements() {
+    _totalAchievements++;
+    notifyListeners();
+  }
+
+  // Method to mark the tutorial as viewed
+  void viewTutorial() {
+    _viewedTutorial = true;
+    notifyListeners();
+  }
+
+  // Method to set the difficulty mode
+  void setHardMode(bool isHardMode) {
+    _isHardMode = isHardMode;
+    notifyListeners();
+  }
+
   GameProgress(this.matchesModel, this.previewModel) {
     _initSharedPreferences();
   }
 
- void _initSharedPreferences() async {
+  void _initSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
 
     _level = _prefs.getInt('current_level') ?? 1;
@@ -41,20 +81,29 @@ class GameProgress with ChangeNotifier {
         'preview_model_state', json.encode(previewModel.toJson()));
   }
 
-
-  // Modify your incrementCurrentLevelAchievement method
   void incrementCurrentLevelAchievement() {
-    if ((_level - _currentLevelAchievement) % 2 == 0) {
-      _currentLevelAchievement++;
-      _saveProgressToSharedPreferences(); // Save progress
-      notifyListeners();
+    _currentLevelAchievement++;
+    if (_currentLevelAchievement == 1) {
+      // Trigger first-level accomplishment
+      completeFirstLevel();
     }
+    _saveProgressToSharedPreferences(); // Save progress
+    notifyListeners();
+    incrementTotalAchievements(); // Increment total achievements
+    addEarnedAccomplishment('Completed Level $_currentLevelAchievement!');
   }
-   void updateUserScoreValue(int newValue) {
+
+  void completeFirstLevel() {
+    // Add any logic or updates needed for completing the first level
+    // For example, you can set a flag, show a message, or perform other actions.
+    print('Congratulations on completing your first level!');
+    addEarnedAccomplishment('Completed Your First Level!');
+  }
+
+  void updateUserScoreValue(int newValue) {
     userScoreValue = newValue;
     notifyListeners();
   }
-
 
   // Modify your checkScoreForLevelChange method
   void checkScoreForLevelChange() {
@@ -69,16 +118,28 @@ class GameProgress with ChangeNotifier {
   }
 
   void resetGame() {
-    matchesModel.red = 0.0;
-    matchesModel.green = 0.0;
-    matchesModel.blue = 0.0;
+    matchesModel.red = _prefs.getDouble('saved_red_$_level') ?? 0.0;
+    matchesModel.green = _prefs.getDouble('saved_green_$_level') ?? 0.0;
+    matchesModel.blue = _prefs.getDouble('saved_blue_$_level') ?? 0.0;
     _userScore = 0.0;
     previewModel.reset();
     _saveProgressToSharedPreferences();
   }
 
   int _currentLevelAchievement = 0;
+
   int get currentLevelAchievement => _currentLevelAchievement;
+
+  void completeLevel() {
+    _currentLevelAchievement += 1;
+    notifyListeners();
+    if (isHardMode) {
+      setHardMode(true);
+    }
+    incrementTotalAchievements(); // Increment total achievements
+    addEarnedAccomplishment('Completed Level $_currentLevelAchievement!');
+    _saveProgressToSharedPreferences(); // Save progress
+  }
 
   int _level = 1;
   double _userScore = 0.0;
@@ -99,13 +160,13 @@ class GameProgress with ChangeNotifier {
     notifyListeners();
   }
 
-void updateUserScore(double score) {
-  if (_userScore != score) {
-    _userScore = score;
-    checkScoreForLevelChange();
-    notifyListeners();
+  void updateUserScore(double score) {
+    if (_userScore != score) {
+      _userScore = score;
+      checkScoreForLevelChange();
+      notifyListeners();
+    }
   }
-}
 
   // Other methods relevant to game progression...
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'music_button.dart';
 import 'tutorial_page.dart'; // Import the TutorialPage
 import 'accomplishments.dart'; // Import the Accomplishments page
+import 'user_progress_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -45,10 +46,11 @@ class HomePage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Accomplishments()),
+                        MaterialPageRoute(
+                            builder: (context) => Accomplishments()),
                       );
                     },
-                    child: const Text('View Accomplishments'),
+                    child: const Text('Accomplishments'),
                   ),
                 ),
               ],

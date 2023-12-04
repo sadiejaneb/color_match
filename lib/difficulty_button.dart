@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'game_progression.dart';
 
 class DifficultyButton extends StatefulWidget {
   final Function(int) onDifficultyChanged;
@@ -40,6 +42,10 @@ class _DifficultyButtonState extends State<DifficultyButton> {
     widget.onDifficultyChanged(newValue);
     widget.onScoreThresholdChanged(newValue);
     _saveDifficultyState();
+    // Set the difficulty mode in GameProgress
+    Provider.of<GameProgress>(context, listen: false).setHardMode(isHard);
+    // Assuming you also have a method to handle completing a level in the GameplayDesign widget
+    Provider.of<GameProgress>(context, listen: false).completeLevel();
   }
 
   void _saveDifficultyState() async {

@@ -15,7 +15,6 @@ void main() async {
   runApp(MyApp());
 }
 
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -44,7 +43,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     matchesModel.dispose();
     previewModel.dispose();
     gameProgress.dispose();
-    
+
     WidgetsBinding.instance.removeObserver(this);
     AudioManager.stopMusic(); // Optionally stop music when app is closed
     super.dispose();
@@ -61,27 +60,27 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.lightGreen),
-      home: HomePage(),
-      routes: {
-        '/gameplay': (context) => MultiProvider(
-          providers: [
-            ChangeNotifierProvider<PreviewModel>.value(
-              value: previewModel,
-            ),
-            ChangeNotifierProvider<GameProgress>.value(
-              value: gameProgress,
-            ),
-            ChangeNotifierProvider<MatchesModel>.value(
-              value: matchesModel,
-            ),
-          ],
-          child: const GameplayDesign(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PreviewModel>.value(
+          value: previewModel,
         ),
-         '/tutorial': (context) => TutorialPage(), // Add the route for TutorialPage
-      },
+        ChangeNotifierProvider<GameProgress>.value(
+          value: gameProgress,
+        ),
+        ChangeNotifierProvider<MatchesModel>.value(
+          value: matchesModel,
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(primarySwatch: Colors.lightGreen),
+        home: HomePage(),
+        routes: {
+          '/gameplay': (context) => const GameplayDesign(),
+          '/tutorial': (context) => TutorialPage(),
+        },
+      ),
     );
   }
 }
