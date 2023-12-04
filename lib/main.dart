@@ -29,12 +29,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    AudioManager.playOrResumeMusic(); // Move music playback start here
+    AudioManager.playOrResumeMusic(); 
 
     // Initialize models
     matchesModel = MatchesModel();
     previewModel = PreviewModel();
-    gameProgress = GameProgress(matchesModel, previewModel);
+    gameProgress = GameProgress(matchesModel, previewModel,);
   }
 
   @override
