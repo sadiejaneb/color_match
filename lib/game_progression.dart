@@ -31,10 +31,8 @@ class GameProgress with ChangeNotifier {
   bool _hardLevelAchievementAwarded = false;
   bool get hardLevelAchievementAwarded => _hardLevelAchievementAwarded;
 
-  
-
   // Method to add an earned accomplishment
-void addEarnedAccomplishment(String accomplishment) {
+  void addEarnedAccomplishment(String accomplishment) {
     _earnedAccomplishments.add(accomplishment);
     _saveAchievementsToSharedPreferences();
     notifyListeners();
@@ -67,7 +65,7 @@ void addEarnedAccomplishment(String accomplishment) {
     _initSharedPreferences();
   }
 
-void _initSharedPreferences() async {
+  void _initSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
 
     _level = _prefs.getInt('current_level') ?? 1;
@@ -88,7 +86,6 @@ void _initSharedPreferences() async {
     notifyListeners();
   }
 
-
   // Save current level and achievement to SharedPreferences
   void _saveProgressToSharedPreferences() async {
     await _prefs.setInt('current_level', _level);
@@ -98,7 +95,7 @@ void _initSharedPreferences() async {
     await _prefs.setString(
         'preview_model_state', json.encode(previewModel.toJson()));
 
-     // Save additional states
+    // Save additional states
     await _prefs.setBool('viewed_tutorial', _viewedTutorial);
     await _prefs.setBool(
         'hard_level_achievement_awarded', _hardLevelAchievementAwarded);
@@ -118,7 +115,6 @@ void _initSharedPreferences() async {
   }
 
   void completeFirstLevel() {
-    
     print('Congratulations on completing your first level!');
     addEarnedAccomplishment('Completed Your First Level!');
   }
@@ -153,10 +149,9 @@ void _initSharedPreferences() async {
 
   int get currentLevelAchievement => _currentLevelAchievement;
 
-void completeCurrentLevel(BuildContext context) {
+  void completeCurrentLevel(BuildContext context) {
     Provider.of<GameProgress>(context, listen: false).completeLevel();
   }
-
 
   void completeLevel() {
     _currentLevelAchievement += 1;
@@ -205,5 +200,4 @@ void completeCurrentLevel(BuildContext context) {
   void updatePreviousLevel(int newLevel) {
     _previousLevel = newLevel;
   }
-  
 }
