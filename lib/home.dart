@@ -102,7 +102,7 @@ class HomePage extends StatelessWidget {
     List<Color> colors = [
       Colors.red,
       Colors.orange,
-      Color.fromARGB(255, 238, 221, 66),
+      Colors.purple,
       Colors.green,
       Colors.blue,
       Colors.indigo,
