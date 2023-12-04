@@ -29,20 +29,24 @@ class UserProgress {
     List<Map<String, dynamic>> progressList = [];
 
     for (int level = 1; level <= completedLevels; level++) {
-      double savedRed = prefs.getDouble('saved_red_$level') ?? 0.0;
-      double savedGreen = prefs.getDouble('saved_green_$level') ?? 0.0;
-      double savedBlue = prefs.getDouble('saved_blue_$level') ?? 0.0;
-      int savedColorValue =
-          prefs.getInt('saved_color_$level') ?? Colors.black.value;
+      double? savedRed = prefs.getDouble('saved_red_$level');
+      double? savedGreen = prefs.getDouble('saved_green_$level');
+      double? savedBlue = prefs.getDouble('saved_blue_$level');
+      int? savedColorValue = prefs.getInt('saved_color_$level');
 
-      Color savedColor = Color(savedColorValue);
+      if (savedRed != null &&
+          savedGreen != null &&
+          savedBlue != null &&
+          savedColorValue != null) {
+        Color savedColor = Color(savedColorValue);
 
-      progressList.add({
-        'red': savedRed,
-        'green': savedGreen,
-        'blue': savedBlue,
-        'color': savedColor,
-      });
+        progressList.add({
+          'red': savedRed,
+          'green': savedGreen,
+          'blue': savedBlue,
+          'color': savedColor,
+        });
+      }
     }
 
     return progressList;

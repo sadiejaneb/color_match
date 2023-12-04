@@ -86,15 +86,18 @@ class _GameplayDesignState extends State<GameplayDesign> {
   void saveUserAnswer() {
     MatchesModel matchesModel =
         Provider.of<MatchesModel>(context, listen: false);
-    PreviewModel previewModel =
-        Provider.of<PreviewModel>(context, listen: false);
     int currentLevel = Provider.of<GameProgress>(context, listen: false).level;
 
     UserProgress.saveUserProgress(
       matchesModel.red,
       matchesModel.green,
       matchesModel.blue,
-      previewModel.colorPreview,
+      Color.fromRGBO(
+        matchesModel.red.toInt(),
+        matchesModel.green.toInt(),
+        matchesModel.blue.toInt(),
+        1,
+      ),
       currentLevel,
       matchesModel.red,
       matchesModel.green,

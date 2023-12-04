@@ -6,17 +6,17 @@ class UserProgressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Saved Colors'),
+        title: const Text('Saved Colors'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: UserProgress.getUserProgressList(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.data == null || (snapshot.data as List).isEmpty) {
-            return Center(child: Text('No saved colors.'));
+            return const Center(child: Text('No saved colors.'));
           } else {
             // Add debug statements here to inspect the data
             print('Saved Colors Data: ${snapshot.data}');
@@ -31,7 +31,7 @@ class UserProgressPage extends StatelessWidget {
                 int colorValue = (progress['color'] as Color).value;
 
                 return ListTile(
-                  title: Text('Level ${index + 1}'),
+                  title: Text('Color ${index + 1}'),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
