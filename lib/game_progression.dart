@@ -34,11 +34,15 @@ class GameProgress with ChangeNotifier {
   
 
   // Method to add an earned accomplishment
-  void addEarnedAccomplishment(String accomplishment) {
+void addEarnedAccomplishment(String accomplishment) {
     _earnedAccomplishments.add(accomplishment);
+    _saveAchievementsToSharedPreferences();
     notifyListeners();
+  }
 
-    
+  void _saveAchievementsToSharedPreferences() async {
+    await _prefs.setStringList(
+        'earned_accomplishments', _earnedAccomplishments);
   }
 
   // Method to increment the total achievements
@@ -63,20 +67,27 @@ class GameProgress with ChangeNotifier {
     _initSharedPreferences();
   }
 
-  void _initSharedPreferences() async {
+void _initSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
 
     _level = _prefs.getInt('current_level') ?? 1;
     _currentLevelAchievement = _prefs.getInt('current_achievement') ?? 0;
+    _viewedTutorial = _prefs.getBool('viewed_tutorial') ?? false;
+    _hardLevelAchievementAwarded =
+        _prefs.getBool('hard_level_achievement_awarded') ?? false;
+    _totalAchievements = _prefs.getInt('total_achievements') ?? 0;
 
-    // Load the PreviewModel state
     final previewModelJson = _prefs.getString('preview_model_state');
     if (previewModelJson != null) {
       previewModel.fromJson(json.decode(previewModelJson));
     }
 
+    _earnedAccomplishments =
+        _prefs.getStringList('earned_accomplishments') ?? [];
+
     notifyListeners();
   }
+
 
   // Save current level and achievement to SharedPreferences
   void _saveProgressToSharedPreferences() async {
@@ -86,6 +97,12 @@ class GameProgress with ChangeNotifier {
     // Save the PreviewModel state
     await _prefs.setString(
         'preview_model_state', json.encode(previewModel.toJson()));
+
+     // Save additional states
+    await _prefs.setBool('viewed_tutorial', _viewedTutorial);
+    await _prefs.setBool(
+        'hard_level_achievement_awarded', _hardLevelAchievementAwarded);
+    await _prefs.setInt('total_achievements', _totalAchievements);
   }
 
   void incrementCurrentLevelAchievement() {
