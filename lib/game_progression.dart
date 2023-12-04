@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:color_match/matches_model.dart';
 import 'package:color_match/preview_model.dart';
 import 'package:flutter/material.dart';
@@ -97,8 +95,6 @@ class GameProgress with ChangeNotifier {
   }
 
   void completeFirstLevel() {
-    // Add any logic or updates needed for completing the first level
-    // For example, you can set a flag, show a message, or perform other actions.
     print('Congratulations on completing your first level!');
     addEarnedAccomplishment('Completed Your First Level!');
   }
@@ -133,11 +129,10 @@ class GameProgress with ChangeNotifier {
 
   int get currentLevelAchievement => _currentLevelAchievement;
 
-  void completeCurrentLevel() {
-    Provider.of<GameProgress>(context as BuildContext, listen: false)
-        .completeLevel();
-    // Additional logic for transitioning to the next level or updating UI.
+void completeCurrentLevel(BuildContext context) {
+    Provider.of<GameProgress>(context, listen: false).completeLevel();
   }
+
 
   void completeLevel() {
     _currentLevelAchievement += 1;
