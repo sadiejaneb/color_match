@@ -6,7 +6,7 @@ class AudioManager {
   static bool _isMusicMuted = false;
   static double _currentVolume = 1.0;
   static int _currentSongIndex = 0; // Index to track the current song
-  static List<String> _songs = [
+  static final List<String> _songs = [
     'background_music.mp3',
     'song2.mp3',
     'song3.mp3',
