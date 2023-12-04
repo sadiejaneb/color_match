@@ -28,6 +28,7 @@ class GameProgress with ChangeNotifier {
   List<String> _earnedAccomplishments = [];
 
   List<String> get earnedAccomplishments => _earnedAccomplishments;
+  
 
   // Method to add an earned accomplishment
   void addEarnedAccomplishment(String accomplishment) {
@@ -44,7 +45,7 @@ class GameProgress with ChangeNotifier {
   // Method to mark the tutorial as viewed
   void viewTutorial() {
     _viewedTutorial = true;
-    notifyListeners();
+    //notifyListeners();
   }
 
   // Method to set the difficulty mode
@@ -95,6 +96,7 @@ class GameProgress with ChangeNotifier {
   }
 
   void completeFirstLevel() {
+    
     print('Congratulations on completing your first level!');
     addEarnedAccomplishment('Completed Your First Level!');
   }
@@ -172,12 +174,11 @@ void completeCurrentLevel(BuildContext context) {
     }
   }
 
-  // Other methods relevant to game progression...
-
   int _previousLevel = 1;
   int get previousLevel => _previousLevel;
 
   void updatePreviousLevel(int newLevel) {
     _previousLevel = newLevel;
   }
+  
 }
