@@ -53,6 +53,19 @@ class HomePage extends StatelessWidget {
                     child: const Text('Accomplishments'),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserProgressPage()),
+                      );
+                    },
+                    child: const Text('Saved Colors'),
+                  ),
+                ),
               ],
             ),
           ),

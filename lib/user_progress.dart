@@ -17,9 +17,6 @@ class UserProgress {
     prefs.setDouble('saved_green_$currentLevel', green);
     prefs.setDouble('saved_blue_$currentLevel', blue);
     prefs.setInt('saved_color_$currentLevel', colorValue.value);
-    prefs.setDouble('saved_slider1_$currentLevel', slider1Value);
-    prefs.setDouble('saved_slider2_$currentLevel', slider2Value);
-    prefs.setDouble('saved_slider3_$currentLevel', slider3Value);
     prefs.setInt('completed_levels', currentLevel);
   }
 
@@ -37,9 +34,6 @@ class UserProgress {
       double savedBlue = prefs.getDouble('saved_blue_$level') ?? 0.0;
       int savedColorValue =
           prefs.getInt('saved_color_$level') ?? Colors.black.value;
-      double savedSlider1 = prefs.getDouble('saved_slider1_$level') ?? 0.0;
-      double savedSlider2 = prefs.getDouble('saved_slider2_$level') ?? 0.0;
-      double savedSlider3 = prefs.getDouble('saved_slider3_$level') ?? 0.0;
 
       Color savedColor = Color(savedColorValue);
 
@@ -48,9 +42,6 @@ class UserProgress {
         'green': savedGreen,
         'blue': savedBlue,
         'color': savedColor,
-        'slider1': savedSlider1,
-        'slider2': savedSlider2,
-        'slider3': savedSlider3,
       });
     }
 

@@ -11,6 +11,8 @@ import 'pause_button.dart';
 import 'difficulty_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'user_progress.dart';
+
 class GameplayDesign extends StatefulWidget {
   const GameplayDesign({Key? key}) : super(key: key);
 
@@ -35,12 +37,6 @@ class _GameplayDesignState extends State<GameplayDesign> {
     Provider.of<GameProgress>(context, listen: false).setHardMode(isHard);
     // Assuming you also have a method to handle completing a level in the GameplayDesign widget
     Provider.of<GameProgress>(context, listen: false).completeLevel();
-  }
-
-  void initState() {
-    super.initState();
-    _loadSimilarityValue();
-    _loadUserScoreValue();
   }
 
   void _loadSimilarityValue() async {
@@ -85,6 +81,31 @@ class _GameplayDesignState extends State<GameplayDesign> {
   void _saveUserScoreValue(int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('userScoreValue', value);
+  }
+
+  void saveUserAnswer() {
+    MatchesModel matchesModel =
+        Provider.of<MatchesModel>(context, listen: false);
+    PreviewModel previewModel =
+        Provider.of<PreviewModel>(context, listen: false);
+    int currentLevel = Provider.of<GameProgress>(context, listen: false).level;
+
+    UserProgress.saveUserProgress(
+      matchesModel.red,
+      matchesModel.green,
+      matchesModel.blue,
+      previewModel.colorPreview,
+      currentLevel,
+      matchesModel.red,
+      matchesModel.green,
+      matchesModel.blue,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('User answer saved for Level $currentLevel'),
+      ),
+    );
   }
 
   @override
@@ -136,6 +157,14 @@ class _GameplayDesignState extends State<GameplayDesign> {
                 child: DifficultyButton(
                   onDifficultyChanged: updateSimilarityValue,
                   onScoreThresholdChanged: updateUserScoreValue,
+                ),
+              ),
+              Positioned(
+                bottom: 20,
+                right: 20,
+                child: ElevatedButton(
+                  onPressed: saveUserAnswer,
+                  child: Text('Save Color'),
                 ),
               ),
               Positioned(

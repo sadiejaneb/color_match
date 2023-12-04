@@ -1,6 +1,9 @@
+import 'dart:js';
+
 import 'package:color_match/matches_model.dart';
 import 'package:color_match/preview_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -129,6 +132,12 @@ class GameProgress with ChangeNotifier {
   int _currentLevelAchievement = 0;
 
   int get currentLevelAchievement => _currentLevelAchievement;
+
+  void completeCurrentLevel() {
+    Provider.of<GameProgress>(context as BuildContext, listen: false)
+        .completeLevel();
+    // Additional logic for transitioning to the next level or updating UI.
+  }
 
   void completeLevel() {
     _currentLevelAchievement += 1;

@@ -6,7 +6,7 @@ class UserProgressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Progress'),
+        title: Text('Saved Colors'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: UserProgress.getUserProgressList(),
@@ -16,8 +16,10 @@ class UserProgressPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.data == null || (snapshot.data as List).isEmpty) {
-            return Center(child: Text('No completed levels.'));
+            return Center(child: Text('No saved colors.'));
           } else {
+            // Add debug statements here to inspect the data
+            print('Saved Colors Data: ${snapshot.data}');
             List<Map<String, dynamic>> progressList =
                 snapshot.data as List<Map<String, dynamic>>;
             return ListView.builder(
@@ -34,16 +36,13 @@ class UserProgressPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Red: ${progress['red']}, Green: ${progress['green']}, Blue: ${progress['blue']}',
+                        'Red: ${progress['red']}',
                       ),
                       Text(
-                        'Slider 1: ${progress['slider1']}',
+                        'Green: ${progress['green']}',
                       ),
                       Text(
-                        'Slider 2: ${progress['slider2']}',
-                      ),
-                      Text(
-                        'Slider 3: ${progress['slider3']}',
+                        'Blue: ${progress['blue']}',
                       ),
                     ],
                   ),
