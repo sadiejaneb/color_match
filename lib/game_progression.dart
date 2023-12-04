@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:color_match/matches_model.dart';
 import 'package:color_match/preview_model.dart';
 import 'package:flutter/material.dart';
@@ -28,21 +30,11 @@ class GameProgress with ChangeNotifier {
   List<String> _earnedAccomplishments = [];
 
   List<String> get earnedAccomplishments => _earnedAccomplishments;
-  bool _hardLevelAchievementAwarded = false;
-  bool get hardLevelAchievementAwarded => _hardLevelAchievementAwarded;
-
-  
 
   // Method to add an earned accomplishment
-void addEarnedAccomplishment(String accomplishment) {
+  void addEarnedAccomplishment(String accomplishment) {
     _earnedAccomplishments.add(accomplishment);
-    _saveAchievementsToSharedPreferences();
     notifyListeners();
-  }
-
-  void _saveAchievementsToSharedPreferences() async {
-    await _prefs.setStringList(
-        'earned_accomplishments', _earnedAccomplishments);
   }
 
   // Method to increment the total achievements
@@ -54,7 +46,7 @@ void addEarnedAccomplishment(String accomplishment) {
   // Method to mark the tutorial as viewed
   void viewTutorial() {
     _viewedTutorial = true;
-    //notifyListeners();
+    notifyListeners();
   }
 
   // Method to set the difficulty mode
@@ -67,27 +59,20 @@ void addEarnedAccomplishment(String accomplishment) {
     _initSharedPreferences();
   }
 
-void _initSharedPreferences() async {
+  void _initSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
 
     _level = _prefs.getInt('current_level') ?? 1;
     _currentLevelAchievement = _prefs.getInt('current_achievement') ?? 0;
-    _viewedTutorial = _prefs.getBool('viewed_tutorial') ?? false;
-    _hardLevelAchievementAwarded =
-        _prefs.getBool('hard_level_achievement_awarded') ?? false;
-    _totalAchievements = _prefs.getInt('total_achievements') ?? 0;
 
+    // Load the PreviewModel state
     final previewModelJson = _prefs.getString('preview_model_state');
     if (previewModelJson != null) {
       previewModel.fromJson(json.decode(previewModelJson));
     }
 
-    _earnedAccomplishments =
-        _prefs.getStringList('earned_accomplishments') ?? [];
-
     notifyListeners();
   }
-
 
   // Save current level and achievement to SharedPreferences
   void _saveProgressToSharedPreferences() async {
@@ -97,12 +82,6 @@ void _initSharedPreferences() async {
     // Save the PreviewModel state
     await _prefs.setString(
         'preview_model_state', json.encode(previewModel.toJson()));
-
-     // Save additional states
-    await _prefs.setBool('viewed_tutorial', _viewedTutorial);
-    await _prefs.setBool(
-        'hard_level_achievement_awarded', _hardLevelAchievementAwarded);
-    await _prefs.setInt('total_achievements', _totalAchievements);
   }
 
   void incrementCurrentLevelAchievement() {
@@ -118,7 +97,8 @@ void _initSharedPreferences() async {
   }
 
   void completeFirstLevel() {
-    
+    // Add any logic or updates needed for completing the first level
+    // For example, you can set a flag, show a message, or perform other actions.
     print('Congratulations on completing your first level!');
     addEarnedAccomplishment('Completed Your First Level!');
   }
@@ -153,20 +133,18 @@ void _initSharedPreferences() async {
 
   int get currentLevelAchievement => _currentLevelAchievement;
 
-void completeCurrentLevel(BuildContext context) {
-    Provider.of<GameProgress>(context, listen: false).completeLevel();
+  void completeCurrentLevel() {
+    Provider.of<GameProgress>(context as BuildContext, listen: false)
+        .completeLevel();
+    // Additional logic for transitioning to the next level or updating UI.
   }
-
 
   void completeLevel() {
     _currentLevelAchievement += 1;
     notifyListeners();
-
-    if (isHardMode && !_hardLevelAchievementAwarded) {
-      _hardLevelAchievementAwarded = true; // Set the flag to true
-      addEarnedAccomplishment('Completed a Hard Level! ');
+    if (isHardMode) {
+      setHardMode(true);
     }
-
     incrementTotalAchievements(); // Increment total achievements
     addEarnedAccomplishment('Completed Level $_currentLevelAchievement!');
     _saveProgressToSharedPreferences(); // Save progress
@@ -199,11 +177,12 @@ void completeCurrentLevel(BuildContext context) {
     }
   }
 
+  // Other methods relevant to game progression...
+
   int _previousLevel = 1;
   int get previousLevel => _previousLevel;
 
   void updatePreviousLevel(int newLevel) {
     _previousLevel = newLevel;
   }
-  
 }

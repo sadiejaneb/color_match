@@ -1,11 +1,12 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class AudioManager {
   static final AudioPlayer _audioPlayer = AudioPlayer();
   static bool _isMusicMuted = false;
   static double _currentVolume = 1.0;
   static int _currentSongIndex = 0; // Index to track the current song
-  static final List<String> _songs = [
+  static List<String> _songs = [
     'background_music.mp3',
     'song2.mp3',
     'song3.mp3',
@@ -28,12 +29,6 @@ static void nextSong() {
     _currentSongIndex = (_currentSongIndex - 1 + _songs.length) % _songs.length;
     playOrResumeMusic();
     saveSettings(); // Save new song index
-  }
-
-  static void setVolume(double volume) {
-    _currentVolume = volume;
-    _audioPlayer.setVolume(volume);
-    saveSettings();
   }
 
   static void muteMusic() {
@@ -92,6 +87,12 @@ static void nextSong() {
     playOrResumeMusic();
   }
 
+  // Update the setVolume and toggleMusicMute methods to save settings
+  static void setVolume(double volume) {
+    _currentVolume = volume;
+    _audioPlayer.setVolume(volume);
+    saveSettings();
+  }
 
   static void toggleMusicMute() {
     if (_isMusicMuted) {

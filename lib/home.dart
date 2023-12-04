@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'music_button.dart';
-import 'tutorial_page.dart'; 
-import 'accomplishments.dart'; 
+import 'tutorial_page.dart'; // Import the TutorialPage
+import 'accomplishments.dart'; // Import the Accomplishments page
 import 'user_progress_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -17,27 +17,8 @@ class HomePage extends StatelessWidget {
         children: [
           Center(
             child: Column(
-              mainAxisAlignment:
-                  MainAxisAlignment.center, // Center content vertically
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Colorful "COLOR MATCH" text
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical:50.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: _buildColorfulText('COLOR'),
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: _buildColorfulText('MATCH'),
-                      ),
-                    ],
-                  ),
-                ),
-                // Buttons
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
@@ -96,32 +77,5 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
-  }
-  List<Widget> _buildColorfulText(String text) {
-    List<Color> colors = [
-      Colors.red,
-      Colors.orange,
-      Color.fromARGB(255, 238, 221, 66),
-      Colors.green,
-      Colors.blue,
-      Colors.indigo,
-      Colors.purple,
-      Colors.pink,
-      Colors.cyan,
-      Colors.lime,
-    ];
-    int colorIndex = 0;
-
-    return text.split('').map((letter) {
-      Color color = colors[colorIndex++ % colors.length];
-      return Text(
-        letter,
-        style: TextStyle(
-          fontSize: 72, 
-          fontWeight: FontWeight.bold,
-          color: color,
-        ),
-      );
-    }).toList();
   }
 }
