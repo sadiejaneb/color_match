@@ -38,6 +38,7 @@ class _GameplayDesignState extends State<GameplayDesign> {
     // Assuming you also have a method to handle completing a level in the GameplayDesign widget
     Provider.of<GameProgress>(context, listen: false).completeLevel();
   }
+  
 
   void _loadSimilarityValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
